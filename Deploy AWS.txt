@@ -1,0 +1,63 @@
+-- Configuración de EC2 - Ubuntu 18.04 LTS
+
+User: ubuntu
+
+Copiar los datos en el ec2
+
+--Instalar python3.7
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.7
+
+-- Install PIP
+sudo apt install python3-pip
+pip3 --version
+
+-- Install virtualenv
+pip3 install virtualenv
+sudo apt install virtualenv
+sudo apt-get upgrade python3-virtualenv
+which virtualenv
+virtualenv -p /usr/bin/python3.7 venv
+source venv/bin/activate
+--> deactivate
+--> rm -rf venv (para eliminar)
+
+-- Install libraries
+sudo apt-get install libsndfile1-dev
+pip install -r requirements.txt
+pip install torch==1.9.0+cpu torchvision==0.10.0+cpu torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+nohup python3 main.py & --para correr tu main.py en segundo plano
+ps uax | grep python3 --con esto ves los procesos y copias el PID
+
+e.g.: ubuntu   18405  0.5  3.3 1133080 267412 pts/0  S    02:19   0:01 python3 main.py
+
+sudo kill -9 18405  -PARA MATAR EL SERVICIO
+
+#Crear daemon
+sudo nano /home/ubuntu/BERT-Backend-Flask/run-venv.sh             #Crear el batch que va correr el venv
+sudo chmod +x /home/ubuntu/BERT-Backend-Flask/run-venv.sh     #Cambiar permisos
+sudo nano /home/ubuntu/BERT-Backend-Flask/run-startup.sh             #Crear el batch que va correr el los servicios de python
+sudo chmod +x /home/ubuntu/BERT-Backend-Flask/run-startup.sh     #Cambiar permisos
+
+sudo nano /etc/systemd/system/my-startup.service   #Registrar el servicio
+sudo systemctl enable my-startup.service                    #Correr el servicio
+
+sudo reboot                                                    #Le metemos su reiniciada para probar
+systemctl status my-startup.service                #Verificar el estado del servicio
+sudo systemctl disable my-startup.service      #Para modificar los scripts siempre desactivar
+ps uax | grep python3                                      #Ver si corrió el servicio
+
+#Registro del servicio
+/*
+[Unit]
+Description=Startup
+
+[Service]
+ExecStart=/home/ubuntu/BERT-Backend-Flask/run-startup.sh
+
+[Install]
+WantedBy=multi-user.target
+*/
