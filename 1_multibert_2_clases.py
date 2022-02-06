@@ -9,17 +9,18 @@ flg_preproc   = 'processed'           # ['original', 'processed']
 model         = 'base-uncased'
 rand_state    = 2020
 
+
 """# B - Setup"""
 
 import torch
 
 if torch.cuda.is_available():       
     device = torch.device("cuda")
-    print(f'There are {torch.cuda.device_count()} GPU(s) available.')
-    print('Device name:', torch.cuda.get_device_name(0))
+    #print(f'There are {torch.cuda.device_count()} GPU(s) available.')
+    #print('Device name:', torch.cuda.get_device_name(0))
 
 else:
-    print('No GPU available, using the CPU instead.')
+    #print('No GPU available, using the CPU instead.')
     device = torch.device("cpu")
 
 # SpanBERT https://github.com/chriskhanhtran/spanish-bert
@@ -39,7 +40,7 @@ elif model == 'multilingual':
   path_model = 'bert-base-multilingual-uncased'
 
 
-print(path_model)
+#print(path_model)
 
 """## 1. Load Essential Libraries"""
 
@@ -57,8 +58,8 @@ import matplotlib.pyplot as plt
 
 """## 2. Dataset"""
 
-from google.colab import drive
-drive.mount('/content/drive')
+#from google.colab import drive
+#drive.mount('/content/drive')
 
 data = pd.read_csv(dataset_path, encoding= 'unicode_escape')
 data.head(5)
@@ -98,9 +99,9 @@ np_class_0 = df_TRAIN[df_TRAIN['label']==0].values.tolist()
 dif = len(np_class_1) - len(np_class_0)
 
 # Pintar valores
-print('0: ' + str(len(np_class_0)))
-print('1: ' + str(len(np_class_1)))
-print('dif: ' + str(dif))
+#print('0: ' + str(len(np_class_0)))
+#print('1: ' + str(len(np_class_1)))
+#print('dif: ' + str(dif))
 
 np.random.seed(rand_state)
 np_TRAIN = []
@@ -139,11 +140,11 @@ y_TRAIN = dfTRAIN.label.values
 
 X_train, X_val, y_train, y_val = train_test_split(X_TRAIN, y_TRAIN, test_size=test_sz, random_state=rand_state)
 
-print('All dataset: ', data.shape[0])
-print('Train: ', X_train.shape[0])
-print('Valid: ', X_val.shape[0])
-print('Test: ',+ X_test.shape[0])
-print('Train + valid + test:', str(X_train.shape[0] + X_val.shape[0] + X_test.shape[0]))
+#print('All dataset: ', data.shape[0])
+#print('Train: ', X_train.shape[0])
+#print('Valid: ', X_val.shape[0])
+#print('Test: ',+ X_test.shape[0])
+#print('Train + valid + test:', str(X_train.shape[0] + X_val.shape[0] + X_test.shape[0]))
 
 import numpy as np
 
@@ -240,8 +241,8 @@ def evaluate_roc(probs, y_true, name_flag):
   #print(probs.shape)
   #print(y_true.shape)
 
-  print(probs[0])
-  print(type(probs[0]))
+  #print(probs[0])
+  #print(type(probs[0]))
   """
   - Print AUC and accuracy on the test set
   - Plot ROC
@@ -251,14 +252,14 @@ def evaluate_roc(probs, y_true, name_flag):
   preds = probs[:, 1]
   fpr, tpr, threshold = roc_curve(y_true, preds)
   roc_auc = auc(fpr, tpr)
-  print(f'AUC: {roc_auc:.4f}')
+  #print(f'AUC: {roc_auc:.4f}')
       
   # Get accuracy over the test set
   y_pred = np.where(preds >= 0.5, 1, 0)
   accuracy = accuracy_score(y_true, y_pred)
-  print(f'Accuracy: {accuracy*100:.2f}%')
+  #print(f'Accuracy: {accuracy*100:.2f}%')
   
-  print(classification_report(y_true, y_pred, digits=4))
+  #print(classification_report(y_true, y_pred, digits=4))
   
   #-----------Extra-----------
   labels       = [0 , 1]
@@ -307,7 +308,7 @@ def evaluate_roc(probs, y_true, name_flag):
   frames = [df_a,df_b, df_c]
   df = pd.concat(frames, axis=1)
   
-  print(confusion_matrix(y_true, y_pred))
+  #print(confusion_matrix(y_true, y_pred))
   #plot_confusion_matrix(name_flag,
   #                      confusion_matrix(y_true, y_pred),
   #                      target_names = ['Class 0', 'Class 1'],
@@ -324,7 +325,7 @@ def evaluate_roc(probs, y_true, name_flag):
 ## 1. Install the Hugging Face Library
 """
 
-!pip install transformers==4.4.2
+#!pip install transformers==4.4.2
 #2.8.0
 
 """# 2. Tokenization and Input Formatting"""
@@ -365,15 +366,15 @@ def text_preprocessing(text):
 
     return text
 
-print(p.clean('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
-print(text_preprocessing('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
+#print(p.clean('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
+#print(text_preprocessing('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
 
-print(p.clean('@user im depression'))
-print(text_preprocessing('@user im depression'))
+#print(p.clean('@user im depression'))
+#print(text_preprocessing('@user im depression'))
 
 # Print sentence 0
-print('Original: ', X_train[0])
-print('Processed: ', text_preprocessing(X_train[0]))
+#print('Original: ', X_train[0])
+#print('Processed: ', text_preprocessing(X_train[0]))
 
 """### 2.1. BERT Tokenizer"""
 
@@ -432,7 +433,7 @@ encoded_tweets = [tokenizer.encode(sent, add_special_tokens=True) for sent in al
 
 # Find the maximum length
 max_len = max([len(sent) for sent in encoded_tweets])
-print('Max length: ', max_len)
+#print('Max length: ', max_len)
 
 """Now let's tokenize our data."""
 
@@ -441,18 +442,18 @@ MAX_LEN = max_len
 
 # Print sentence 0 and its encoded token ids
 token_ids = list(preprocessing_for_bert([X_train[0]])[0].squeeze().numpy())
-print('Original: ', X_train[0])
-print('Token IDs: ', token_ids)
+#print('Original: ', X_train[0])
+#print('Token IDs: ', token_ids)
 
 # Run function `preprocessing_for_bert` on the train set and the validation set
-print('Tokenizing data...')
+#print('Tokenizing data...')
 train_inputs, train_masks = preprocessing_for_bert(X_train)
 val_inputs, val_masks = preprocessing_for_bert(X_val)
 
 """### 2.2. Create PyTorch DataLoader"""
 
-print(train_inputs.shape)
-print(val_inputs.shape)
+#print(train_inputs.shape)
+#print(val_inputs.shape)
 
 """We will create an iterator for our dataset using the torch DataLoader class. This will help save on memory during training and boost the training speed."""
 
@@ -481,62 +482,61 @@ val_dataloader = DataLoader(val_data, sampler=val_sampler, batch_size=batch_size
 """
 
 # Commented out IPython magic to ensure Python compatibility.
-# %%time
-# import torch
-# import torch.nn as nn
-# from transformers import BertModel
+import torch
+import torch.nn as nn
+from transformers import BertModel
 # 
 # # Create the BertClassfier class
-# class BertClassifier(nn.Module):
-#     """Bert Model for Classification Tasks.
-#     """
-#     def __init__(self, freeze_bert=False):
-#         """
-#         @param    bert: a BertModel object
-#         @param    classifier: a torch.nn.Module classifier
-#         @param    freeze_bert (bool): Set `False` to fine-tune the BERT model
-#         """
-#         super(BertClassifier, self).__init__()
-#         # Specify hidden size of BERT, hidden size of our classifier, and number of labels
-#         D_in, H, D_out = 768, 50, 2
-# 
-#         # Instantiate BERT model
-#         self.bert = BertModel.from_pretrained(path_model)
-# 
-#         # Instantiate an one-layer feed-forward classifier
-#         self.classifier = nn.Sequential(
-#             nn.Linear(D_in, H),
-#             nn.ReLU(),
-#             #nn.Dropout(0.5),
-#             nn.Linear(H, D_out)
-#         )
-# 
-#         # Freeze the BERT model
-#         if freeze_bert:
-#             for param in self.bert.parameters():
-#                 param.requires_grad = False
-#         
-#     def forward(self, input_ids, attention_mask):
-#         """
-#         Feed input to BERT and the classifier to compute logits.
-#         @param    input_ids (torch.Tensor): an input tensor with shape (batch_size,
-#                       max_length)
-#         @param    attention_mask (torch.Tensor): a tensor that hold attention mask
-#                       information with shape (batch_size, max_length)
-#         @return   logits (torch.Tensor): an output tensor with shape (batch_size,
-#                       num_labels)
-#         """
-#         # Feed input to BERT
-#         outputs = self.bert(input_ids=input_ids,
-#                             attention_mask=attention_mask)
-#         
-#         # Extract the last hidden state of the token `[CLS]` for classification task
-#         last_hidden_state_cls = outputs[0][:, 0, :]
-# 
-#         # Feed input to classifier to compute logits
-#         logits = self.classifier(last_hidden_state_cls)
-# 
-#         return logits
+class BertClassifier(nn.Module):
+    """Bert Model for Classification Tasks.
+    """
+    def __init__(self, freeze_bert=False):
+        """
+        @param    bert: a BertModel object
+        @param    classifier: a torch.nn.Module classifier
+        @param    freeze_bert (bool): Set `False` to fine-tune the BERT model
+        """
+        super(BertClassifier, self).__init__()
+        # Specify hidden size of BERT, hidden size of our classifier, and number of labels
+        D_in, H, D_out = 768, 50, 2
+
+        # Instantiate BERT model
+        self.bert = BertModel.from_pretrained(path_model)
+
+        # Instantiate an one-layer feed-forward classifier
+        self.classifier = nn.Sequential(
+            nn.Linear(D_in, H),
+            nn.ReLU(),
+            #nn.Dropout(0.5),
+            nn.Linear(H, D_out)
+        )
+
+        # Freeze the BERT model
+        if freeze_bert:
+            for param in self.bert.parameters():
+                param.requires_grad = False
+        
+    def forward(self, input_ids, attention_mask):
+        """
+        Feed input to BERT and the classifier to compute logits.
+        @param    input_ids (torch.Tensor): an input tensor with shape (batch_size,
+                      max_length)
+        @param    attention_mask (torch.Tensor): a tensor that hold attention mask
+                      information with shape (batch_size, max_length)
+        @return   logits (torch.Tensor): an output tensor with shape (batch_size,
+                      num_labels)
+        """
+        # Feed input to BERT
+        outputs = self.bert(input_ids=input_ids,
+                            attention_mask=attention_mask)
+        
+        # Extract the last hidden state of the token `[CLS]` for classification task
+        last_hidden_state_cls = outputs[0][:, 0, :]
+
+        # Feed input to classifier to compute logits
+        logits = self.classifier(last_hidden_state_cls)
+
+        return logits
 
 """### 3.2. Optimizer & Learning Rate Scheduler
 
@@ -597,8 +597,8 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
         #               Training
         # =======================================
         # Print the header of the result table
-        print(f"{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} | {'Elapsed':^9}")
-        print("-"*70)
+        #print(f"{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} | {'Elapsed':^9}")
+        #print("-"*70)
 
         # Measure the elapsed time of each epoch
         t0_epoch, t0_batch = time.time(), time.time()
@@ -651,7 +651,7 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
         # Calculate the average loss over the entire training data
         avg_train_loss = total_loss / len(train_dataloader)
 
-        print("-"*70)
+        #print("-"*70)
         # =======================================
         #               Evaluation
         # =======================================
@@ -663,11 +663,11 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
             # Print performance over the entire training data
             time_elapsed = time.time() - t0_epoch
             
-            print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {time_elapsed:^9.2f}")
-            print("-"*70)
-        print("\n")
+            #print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {time_elapsed:^9.2f}")
+            #print("-"*70)
+        #print("\n")
     
-    print("Training complete!")
+    #print("Training complete!")
 
 
 def evaluate(model, val_dataloader):
@@ -769,7 +769,7 @@ Before making predictions on the test set, we need to redo processing and encodi
 """
 
 # Run `preprocessing_for_bert` on the test set
-print('Tokenizing data...')
+#print('Tokenizing data...')
 test_inputs, test_masks = preprocessing_for_bert(X_test)
 
 # Create the DataLoader for our test set
@@ -787,15 +787,15 @@ threshold = 0.9
 preds_test = np.where(probs_test[:, 1] > threshold, 1, 0)
 
 # Number of tweets predicted non-negative
-print("Number of tweets predicted non-negative: ", preds_test.sum())
+#print("Number of tweets predicted non-negative: ", preds_test.sum())
 #print(result_dir)
 
 # Evaluate the Bert classifier
 evaluate_roc(probs_test, y_test,'test')
 
-output = X_test[preds_test==1]
-for i in range(20):
-  print(output[i])
+#output = X_test[preds_test==1]
+#for i in range(20):
+#  print(output[i])
 
 """# E - Conclusion
 
