@@ -9,7 +9,6 @@ flg_preproc   = 'processed'           # ['original', 'processed']
 model         = 'base-uncased'
 rand_state    = 2020
 
-
 """# B - Setup"""
 
 import torch
@@ -591,7 +590,7 @@ def set_seed(seed_value=42):
 
 def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=False):
     # Start training loop
-    print("Start training...\n")
+    #print("Start training...\n")
     for epoch_i in range(epochs):
         # =======================================
         #               Training
@@ -642,7 +641,7 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
                 time_elapsed = time.time() - t0_batch
 
                 # Print training results
-                print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9} | {time_elapsed:^9.2f}")
+                #print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9} | {time_elapsed:^9.2f}")
 
                 # Reset batch tracking variables
                 batch_loss, batch_counts = 0, 0
