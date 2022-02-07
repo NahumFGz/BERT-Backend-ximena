@@ -25,8 +25,8 @@ else:
 # Beto https://github.com/dccuchile/beto
 # Multilingual https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages
 
-dataset_path  = '/content/drive/MyDrive/DataSets/Tesis_Ximena/'+ dataset_name +'.csv'
-result_dir   =  '/content/drive/MyDrive/ResultadosEntrenamiento/Tesis_Ximena/'+ dataset_name + '_PROC'+ flg_preproc  + '_MDL'+ model + '_BLC'+ balanceo +'_TS'+ str(test_sz) + '_RS'+ str(rand_state) +'_epch' + str(num_epochs) + '_lr' + str(learning_rate)
+dataset_path  = '/content/drive/MyDrive/DataSets/Tesis_Ximena_2/'+ dataset_name +'.csv'
+result_dir   =  '/content/drive/MyDrive/ResultadosEntrenamiento/Tesis_Ximena_2/'+ dataset_name + '_PROC'+ flg_preproc  + '_MDL'+ model + '_BLC'+ balanceo +'_TS'+ str(test_sz) + '_RS'+ str(rand_state) +'_epch' + str(num_epochs) + '_lr' + str(learning_rate)
 
 if model == 'base-uncased':
   path_model = 'bert-base-uncased'
