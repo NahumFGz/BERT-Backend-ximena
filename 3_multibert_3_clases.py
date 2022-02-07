@@ -14,11 +14,11 @@ import torch
 
 if torch.cuda.is_available():       
     device = torch.device("cuda")
-    print(f'There are {torch.cuda.device_count()} GPU(s) available.')
-    print('Device name:', torch.cuda.get_device_name(0))
+    #print(f'There are {torch.cuda.device_count()} GPU(s) available.')
+    #print('Device name:', torch.cuda.get_device_name(0))
 
 else:
-    print('No GPU available, using the CPU instead.')
+    #print('No GPU available, using the CPU instead.')
     device = torch.device("cpu")
 
 # SpanBERT https://github.com/chriskhanhtran/spanish-bert
@@ -36,9 +36,7 @@ elif model == 'BETO':
   path_model = 'mrm8488/bert-spanish-cased-finetuned-ner'
 elif model == 'multilingual':
   path_model = 'bert-base-multilingual-uncased'
-
-
-print(path_model)
+#print(path_model)
 
 """## 1. Load Essential Libraries"""
 
@@ -97,9 +95,9 @@ np_class_1 = df_TRAIN[df_TRAIN['label']==1].values.tolist()
 np_class_2 = df_TRAIN[df_TRAIN['label']==2].values.tolist()
 
 # Pintar valores
-print('0: ' + str(len(np_class_0)))
-print('1: ' + str(len(np_class_1)))
-print('2: ' + str(len(np_class_2)))
+#print('0: ' + str(len(np_class_0)))
+#print('1: ' + str(len(np_class_1)))
+#print('2: ' + str(len(np_class_2)))
 
 np.random.seed(rand_state)
 np_TRAIN = []
@@ -117,11 +115,11 @@ y_TRAIN = dfTRAIN.label.values
 
 X_train, X_val, y_train, y_val = train_test_split(X_TRAIN, y_TRAIN, test_size=test_sz, random_state=rand_state)
 
-print('All dataset: ', data.shape[0])
-print('Train: ', X_train.shape[0])
-print('Valid: ', X_val.shape[0])
-print('Test: ',+ X_test.shape[0])
-print('Train + valid + test:', str(X_train.shape[0] + X_val.shape[0] + X_test.shape[0]))
+#print('All dataset: ', data.shape[0])
+#print('Train: ', X_train.shape[0])
+#print('Valid: ', X_val.shape[0])
+#print('Test: ',+ X_test.shape[0])
+#print('Train + valid + test:', str(X_train.shape[0] + X_val.shape[0] + X_test.shape[0]))
 
 import numpy as np
 
@@ -287,15 +285,15 @@ def text_preprocessing(text):
 
     return text
 
-print(p.clean('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
-print(text_preprocessing('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
+#print(p.clean('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
+#print(text_preprocessing('@RT @Twitter raw text data usually has lots of #residue. http://t.co/g00gl'))
 
-print(p.clean('@user im depression'))
-print(text_preprocessing('@user im depression'))
+#print(p.clean('@user im depression'))
+#print(text_preprocessing('@user im depression'))
 
 # Print sentence 0
-print('Original: ', X_train[0])
-print('Processed: ', text_preprocessing(X_train[0]))
+#print('Original: ', X_train[0])
+#print('Processed: ', text_preprocessing(X_train[0]))
 
 """### 2.1. BERT Tokenizer"""
 
@@ -354,7 +352,7 @@ encoded_tweets = [tokenizer.encode(sent, add_special_tokens=True) for sent in al
 
 # Find the maximum length
 max_len = max([len(sent) for sent in encoded_tweets])
-print('Max length: ', max_len)
+#print('Max length: ', max_len)
 
 """Now let's tokenize our data."""
 
@@ -363,18 +361,18 @@ MAX_LEN = max_len
 
 # Print sentence 0 and its encoded token ids
 token_ids = list(preprocessing_for_bert([X_train[0]])[0].squeeze().numpy())
-print('Original: ', X_train[0])
-print('Token IDs: ', token_ids)
+#print('Original: ', X_train[0])
+#print('Token IDs: ', token_ids)
 
 # Run function `preprocessing_for_bert` on the train set and the validation set
-print('Tokenizing data...')
+#print('Tokenizing data...')
 train_inputs, train_masks = preprocessing_for_bert(X_train)
 val_inputs, val_masks = preprocessing_for_bert(X_val)
 
 """### 2.2. Create PyTorch DataLoader"""
 
-print(train_inputs.shape)
-print(val_inputs.shape)
+#print(train_inputs.shape)
+#print(val_inputs.shape)
 
 """We will create an iterator for our dataset using the torch DataLoader class. This will help save on memory during training and boost the training speed."""
 
@@ -512,14 +510,14 @@ def set_seed(seed_value=42):
 
 def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=False):
     # Start training loop
-    print("Start training...\n")
+    #print("Start training...\n")
     for epoch_i in range(epochs):
         # =======================================
         #               Training
         # =======================================
         # Print the header of the result table
-        print(f"{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} | {'Elapsed':^9}")
-        print("-"*70)
+        #print(f"{'Epoch':^7} | {'Batch':^7} | {'Train Loss':^12} | {'Val Loss':^10} | {'Val Acc':^9} | {'Elapsed':^9}")
+        #print("-"*70)
 
         # Measure the elapsed time of each epoch
         t0_epoch, t0_batch = time.time(), time.time()
@@ -563,7 +561,7 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
                 time_elapsed = time.time() - t0_batch
 
                 # Print training results
-                print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9} | {time_elapsed:^9.2f}")
+                #print(f"{epoch_i + 1:^7} | {step:^7} | {batch_loss / batch_counts:^12.6f} | {'-':^10} | {'-':^9} | {time_elapsed:^9.2f}")
 
                 # Reset batch tracking variables
                 batch_loss, batch_counts = 0, 0
@@ -572,7 +570,7 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
         # Calculate the average loss over the entire training data
         avg_train_loss = total_loss / len(train_dataloader)
 
-        print("-"*70)
+        #print("-"*70)
         # =======================================
         #               Evaluation
         # =======================================
@@ -584,11 +582,11 @@ def train(model, train_dataloader, val_dataloader=None, epochs=4, evaluation=Fal
             # Print performance over the entire training data
             time_elapsed = time.time() - t0_epoch
             
-            print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {time_elapsed:^9.2f}")
-            print("-"*70)
-        print("\n")
+            #print(f"{epoch_i + 1:^7} | {'-':^7} | {avg_train_loss:^12.6f} | {val_loss:^10.6f} | {val_accuracy:^9.2f} | {time_elapsed:^9.2f}")
+            #print("-"*70)
+        #print("\n")
     
-    print("Training complete!")
+    #print("Training complete!")
 
 
 def evaluate(model, val_dataloader):
@@ -690,7 +688,7 @@ Before making predictions on the test set, we need to redo processing and encodi
 """
 
 # Run `preprocessing_for_bert` on the test set
-print('Tokenizing data...')
+#print('Tokenizing data...')
 test_inputs, test_masks = preprocessing_for_bert(X_test)
 
 # Create the DataLoader for our test set
@@ -714,8 +712,8 @@ evaluate_roc(probs_test, y_test,'test')
 
 ## Guardar Modelo
 """
-
-PATH_SAVE_MODEL_1 =  result_dir + '_model1.pth' 
-torch.save(bert_classifier, PATH_SAVE_MODEL_1)
-print(PATH_SAVE_MODEL_1)
-
+try:
+  PATH_SAVE_MODEL_1 =  result_dir + '_model1.pth' 
+  torch.save(bert_classifier, PATH_SAVE_MODEL_1)
+except:
+  print('Fin...!!!')
