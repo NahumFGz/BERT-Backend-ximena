@@ -703,7 +703,7 @@ probs_test = bert_predict(bert_classifier, test_dataloader)
 
 # Number of tweets predicted non-negative
 #print("Number of tweets predicted non-negative: ", preds_test.sum())
-#print(result_dir)
+print(result_dir)
 
 # Evaluate the Bert classifier
 evaluate_roc(probs_test, y_test,'test')
