@@ -134,7 +134,7 @@ elif balanceo == 'over':
   np_TRAIN = aux_0 + aux_1 + np_class_2
 
 dfTRAIN = pd.DataFrame(np_TRAIN, columns=['text','label'])
-print(dfTRAIN['label'].value_counts())
+dfTRAIN['label'].value_counts()
 
 X_TRAIN = dfTRAIN.text.values
 y_TRAIN = dfTRAIN.label.values
