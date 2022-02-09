@@ -99,14 +99,42 @@ np_class_2 = df_TRAIN[df_TRAIN['label']==2].values.tolist()
 #print('1: ' + str(len(np_class_1)))
 #print('2: ' + str(len(np_class_2)))
 
+np_arr  = [len(np_class_0),len(np_class_1),len(np_class_2)]
+arg_max = np.argmax(np_arr) 
+
+dif_class_0 = np_arr[arg_max] - np_arr[0]
+dif_class_1 = np_arr[arg_max] - np_arr[1]
+dif_class_2 = np_arr[arg_max] - np_arr[2]  
+
+#print(dif_class_0)
+#print(dif_class_1)
+#print(dif_class_2)
+
+
 np.random.seed(rand_state)
 np_TRAIN = []
 # Normal
 if balanceo == 'normal':
   np_TRAIN = np_class_0 + np_class_1 + np_class_2
 
+elif balanceo == 'over':
+  # RandomOverSampler -> Crear nuevos valores en las clases más pequeñas (Clase 0,1) igualen a la clase mas grande (Clase 2)
+  # Clase 0
+  aux_0 = np_class_0
+  for i in range(dif_class_0):
+    ran_index = random.randrange(0, len(np_class_0)-1, 1)
+    aux_0.append(aux_0[ran_index])
+
+  #Clase 1
+  aux_1 = np_class_1
+  for i in range(dif_class_1):
+    ran_index = random.randrange(0, len(np_class_1)-1, 1)
+    aux_1.append(aux_1[ran_index])
+  
+  np_TRAIN = aux_0 + aux_1 + np_class_2
+
 dfTRAIN = pd.DataFrame(np_TRAIN, columns=['text','label'])
-dfTRAIN['label'].value_counts()
+print(dfTRAIN['label'].value_counts())
 
 X_TRAIN = dfTRAIN.text.values
 y_TRAIN = dfTRAIN.label.values
